@@ -48,8 +48,7 @@ alias killgalaxy='sudo kill -9 $(ps a -e | grep "sh /home/ubuntu/galaxy-dist/run
 # MacPorts Installer addition on 2012-03-20_at_17:49:44: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
-# sublime text as default prompt text editor
-export EDITOR='subl -w'
+
 
 
 
