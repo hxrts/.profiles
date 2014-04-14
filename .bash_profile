@@ -49,8 +49,7 @@ alias killgalaxy='sudo kill -9 $(ps a -e | grep "sh /home/ubuntu/galaxy-dist/run
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # sublime text as default prompt text editor
-export EDITOR='subl -w'
-
+export EDITOR='subl -w' # for sim link info and documentation go here http://www.sublimetext.com/docs/3/osx_command_line.html
 
 
 
