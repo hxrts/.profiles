@@ -18,6 +18,7 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH="$PATH:/bin/gen/samtools-0.1.18:/bin/gen/zlib-1.2.6:/bin/utils/xz-5.0.3"
 export PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin/python"
 export PATH="/usr/local/share/npm/bin:$PATH"
+export PATH="$PATH:~/bin"
 alias vi='vim -N'   
 
 # Setting PATH for Python 2.7
