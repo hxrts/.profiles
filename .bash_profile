@@ -1,7 +1,22 @@
-# colored ls
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
-alias ls='ls -Fa'
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+  platform='Linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+  platform='Darwin'
+fi
+
+if [[ $platform == 'linux' ]]; then
+  alias ls="ls --color"
+  eval 'dircolors ~/gitprofiles/dircolors.256dark' > /dev/null
+  export TERM=xterm-256color
+  export LS_COLORS
+elif [[ $platform == 'Darwin' ]]; then
+  export CLICOLOR=1
+  export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+  alias ls='ls -GFh'
+  alias tree="tree -C"
+fi
 
 # prompt coloring
 parse_git_branch() {

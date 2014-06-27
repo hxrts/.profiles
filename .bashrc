@@ -51,8 +51,3 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
-alias ls="ls --color"
-eval 'dircolors ~/gitprofiles/dircolors.256dark' > /dev/null
-export TERM=xterm-256color
-export LS_COLORS
