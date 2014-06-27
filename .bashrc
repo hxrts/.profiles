@@ -106,10 +106,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-alias ls='ls --color=auto'
-LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
+alias ls="ls --color"
+eval 'dircolors ~/gitprofiles/dircolors.256dark' > /dev/null
+export TERM=xterm-256color
 export LS_COLORS
-
-#add pbcopy alias
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
