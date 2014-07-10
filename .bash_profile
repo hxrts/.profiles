@@ -67,6 +67,11 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # sublime text as default prompt text editor
 export EDITOR='subl -w' # for sim link info and documentation go here http://www.sublimetext.com/docs/3/osx_command_line.html
 
-
-
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # This loads NVM
+
+# Add GHC 7.8.2 to the PATH, via http://ghcformacosx.github.io/
+export GHC_DOT_APP="/Applications/ghc-7.8.2.app"
+if [ -d "$GHC_DOT_APP" ]; then
+  export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
+fi
+    fi
