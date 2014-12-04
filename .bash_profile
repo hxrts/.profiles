@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #set terminal in vi editing mode
 set -o vi
 
@@ -5,6 +6,27 @@ set -o vi
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 alias ls='ls -Fa'
+=======
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+  platform='Linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+  platform='Darwin'
+fi
+
+if [[ $platform == 'Linux' ]]; then
+  alias ls="ls --color"
+  eval 'dircolors ~/gitprofiles/dircolors.256dark' > /dev/null
+  export TERM=xterm-256color
+  export LS_COLORS
+elif [[ $platform == 'Darwin' ]]; then
+  export CLICOLOR=1
+  export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+  alias ls='ls -GFh'
+  alias tree="tree -C"
+fi
+>>>>>>> ac1b4ed7491213450d4153db3c720d691eed888c
 
 # prompt coloring
 parse_git_branch() {
@@ -21,6 +43,7 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH="$PATH:/bin/gen/samtools-0.1.18:/bin/gen/zlib-1.2.6:/bin/utils/xz-5.0.3"
 export PATH="$PATH:/Library/Frameworks/Python.framework/Versions/2.7/bin/python"
 export PATH="/usr/local/share/npm/bin:$PATH"
+export PATH="$PATH:~/bin"
 alias vi='vim -N'   
 
 # Setting PATH for Python 2.7
