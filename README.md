@@ -7,7 +7,7 @@ for syncing profiles across machines
 
 ## instructions
 ## bash
-~/.bash\_profile should source gitprofiles folder with `source "/full_path_to/gitprofiles/.bash_profile"`
+~/.bash\_profile should source gitprofiles folder with `source /full_path_to/gitprofiles/.bash_profile`
 
 linux boxes can add to ~/.bashrc the following to source gitprofiles folder `source /full_path_to/gitprofiles/.bashrc`
 
