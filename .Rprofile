@@ -1,2 +1,4 @@
-.RLib="/Volumes/Brennanlab/System/RLib/"
-source(paste(.RLib,"cbfunctions.R",sep=""))
+ll<-function() {
+        tmp<-sapply(ls(globalenv()), function(x) object.size(get(x,envir=globalenv())))
+        round(sort(tmp)/1024,1)
+}
