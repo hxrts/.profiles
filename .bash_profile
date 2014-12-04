@@ -1,3 +1,6 @@
+#set terminal in vi editing mode
+set -o vi
+
 # colored ls
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
