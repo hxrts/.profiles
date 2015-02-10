@@ -1,8 +1,8 @@
 # R startup options
 
 options(editor="subl")
-
-
+stringsAsFactors=FALSE
+options(width = 150)
 
 # helpful R functions
 
