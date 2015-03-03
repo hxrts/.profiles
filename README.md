@@ -1,11 +1,11 @@
 gitprofiles
 ===========
 
-### notes
+# notes
 
 for syncing profiles across machines
 
-### instructions
+# instructions
 ## bash
 ~/.bash\_profile should source gitprofiles folder with `source /full_path_to/gitprofiles/.bash_profile`
 
@@ -21,5 +21,5 @@ create directory ~/.vim/backup for vim backups
 
 ## git
 add the following to ~/.gitprofile to source code in gitprofiles/.gitconfig
-[include]
-	path = gitprofiles/.gitconfig
+`[include]
+	path = gitprofiles/.gitconfig`
