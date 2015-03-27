@@ -36,7 +36,7 @@ mcbatch <- function(objectList, fun, batch.size=1000, mc.cores=8, fallback.cores
 
 g<-function() {graphics.off()}
 
-as.data.frame.list <- function(x, row.names=NULL, optional=FALSE, ...) {
+list.as.data.frame <- function(x, row.names=NULL, optional=FALSE, ...) {
 	if(!all(unlist(lapply(x, class)) %in% 
 				c('raw','character','complex','numeric','integer','logical'))) {
 		warning('All elements of the list must be a vector.')
