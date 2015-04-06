@@ -9,15 +9,10 @@
 	sync = "!f(){ \
 		git pull && \
 		git add -A && \
-		git commit -m $1 && \
+		git commit -m \\"$*\\" && \
 		git push; \
 		}; f"
 
 # sets the global .gitignore file to the one within the gitProfiles directory (to exclude things like .DS_Dtore universally)
 [core]
 	excludesfile = ~/gitProfiles/.gitignore
-
-
-[alias]
-
-	hi = "!f(){ echo sup && echo $1; }; f"
