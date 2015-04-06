@@ -40,3 +40,15 @@ export GREP_OPTIONS='--color=auto'
 # RVM
 [[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # This loads NVM
+
+
+# command log command
+if [[ "$unamestr" == 'Linux' ]]; then
+	editor='vi'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+	editor='subl -n'
+fi
+
+alias log='$editor ~/gitProfiles/log.txt'
+
+
