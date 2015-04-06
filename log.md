@@ -1,6 +1,6 @@
-### Progress Bar
+### Command Line Progress Bar
 
-bar -c 'iterated command | pipe chain' > out.txt
+`bar -c 'iterated command | pipe chain' > out.txt`
 
 ### GitHub Markdown
 
