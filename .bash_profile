@@ -49,6 +49,6 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
 	editor='subl -n'
 fi
 
-alias log='$editor ~/gitProfiles/log.txt'
+alias log='$editor ~/gitProfiles/log.md'
 
 
