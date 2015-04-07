@@ -1,0 +1,18 @@
+# git history tree visualizations
+[alias]
+	lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg = !"git lg1"
+
+# add 'git sync' alias which is a pull, add -A, commit, push combination
+[alias]
+	sync = "!f(){ \
+		git pull && \
+		git add -A && \
+		git commit -m \"$1\" && \
+		git push; \
+		}; f"
+
+# sets the global .gitignore file to the one within the gitProfiles directory (to exclude things like .DS_Dtore universally)
+[core]
+	excludesfile = ~/gitProfiles/.gitignore
