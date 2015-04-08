@@ -20,7 +20,7 @@ create directory ~/.vim/backup for vim backups
 ~/.Rprofile should source the gitprofiles folder with `source("~/gitProfiles/.Rprofile")`
 
 ### git
-add the following to ~/.gitprofile to source code in gitprofiles/.gitconfig
+add the following to ~/.gitconfig to source code in gitprofiles/.gitconfig
 
 ```
 [include]
