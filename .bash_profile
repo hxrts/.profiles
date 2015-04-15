@@ -51,4 +51,5 @@ fi
 
 alias log='$editor ~/gitProfiles/log.md'
 
-
+# formats history timestamping, call by using command 'history'
+export HISTTIMEFORMAT="%d/%m/%y %T "
