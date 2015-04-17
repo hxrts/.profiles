@@ -2,6 +2,21 @@
 
 `bar -c 'iterated command | pipe chain' > out.txt`
 
+### Regex
+
+#### match from 'somestring' to the end of the line
+
+(somestring.*)$
+
+#### match from the beginning of the line to 'somestring'
+
+.*(somestring)
+
+#### match between two strings
+
+(stringone)(.*)(stringtwo)		# between strings
+(?<=stringone)(.*)(?=stringtwo)		# including those strings
+
 ### GitHub Markdown
 
 [https://help.github.com/articles/markdown-basics/](Markdown Basics)
