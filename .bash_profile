@@ -17,7 +17,7 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
 fi
 
 if [[ $platform == 'Linux' ]]; then
-  alias ls="ls --color"
+  alias ls="ls -a --color"
   eval 'dircolors ~/gitProfiles/dircolors.256dark' > /dev/null
   export TERM=xterm-256color
   export LS_COLORS
