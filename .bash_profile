@@ -42,6 +42,7 @@ export GREP_OPTIONS='--color=auto'
 if [[ "$unamestr" == 'Linux' ]]; then
 	editor='vi'
 elif [[ "$unamestr" == 'Darwin' ]]; then
+  editor="subl"
 fi
 
 # captain's log
