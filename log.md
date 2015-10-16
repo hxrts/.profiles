@@ -1,3 +1,12 @@
+### Qsub
+
+qstat -u "*"
+
+### Make 
+
+make -f = specific file
+	 -n = simulate make
+
 ### Command Line Progress Bar
 
 `bar -c 'iterated command | pipe chain' > out.txt`

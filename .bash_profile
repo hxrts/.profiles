@@ -5,7 +5,7 @@ set -o vi
 alias vi='vim -N'  
 
 # sublime text as default prompt text editor
-export EDITOR='subl -w' # for sim link info and documentation go here http://www.sublimetext.com/docs/3/osx_command_line.html
+export EDITOR='/usr/local/bin/subl -w' # for sim link info and documentation go here http://www.sublimetext.com/docs/3/osx_command_line.html
 
 # colored ls
 platform='unknown'
@@ -41,14 +41,14 @@ export GREP_OPTIONS='--color=auto'
 [[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # This loads NVM
 
-
 # command log command
 if [[ "$unamestr" == 'Linux' ]]; then
 	editor='vi'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-	editor='subl -n'
+	editor='subl'
 fi
 
+# captain's log
 alias log='$editor ~/gitProfiles/log.md'
 
 # locations
@@ -57,5 +57,10 @@ alias hopp='ssh sam@hopp-cli'
 alias terra='ssh hxrts@terra.hxrts.com' # 104.236.26.234
 alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
 alias saba='ssh -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
+
 # formats history timestamping, call by using command 'history'
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
+# R supress intro
+alias R='R -q'
+alias r='r -q'

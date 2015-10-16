@@ -3,6 +3,10 @@
 options(editor="subl")
 options(width = 150)
 
+#suppressMessages(source("http://bioconductor.org/biocLite.R"))
+#uppressMessages(biocLite())
+suppressMessages(library(Rsamtools))
+
 # helpful R functions
 
 ll <- function() {
@@ -10,7 +14,7 @@ ll <- function() {
         round(sort(tmp)/1024,1)
 }
 
-x <- function(w,h) {x11(width=w,height=h)}
+xw <- function(w,h) {x11(width=w,height=h)}
 
 write.data.frame<-function(d,...) {
 	name=paste(...,sep="")
@@ -84,33 +88,8 @@ list.as.data.frame <- function(x, row.names=NULL, optional=FALSE, ...) {
 	}
 	return(df)
 }
- 
-if(FALSE) { #Test the function
-	require(devtools)
-	source_gist(4676064)
-	
-	test1 <- list( c(a='a',b='b',c='c'), c(a='d',b='e',c='f'))
-	as.data.frame(test1)
-	
-	test2 <- list( c('a','b','c'), c(a='d',b='e',c='f'))
-	as.data.frame(test2)
- 
-	test3 <- list('Row1'=c(a='a',b='b',c='c'), 'Row2'=c(a='d',var2='e',var3='f'))
-	as.data.frame(test3)
- 
-	test4 <- list('Row1'=letters[1:5], 'Row2'=letters[1:7], 'Row3'=letters[8:14])
-	as.data.frame(test4)
-	
-	test5 <- list(letters[1:10], letters[11:20])
-	as.data.frame(test5)
-	
-	test6 <- list(list(letters), letters)
-	as.data.frame(test6)
-}
 
-# bioinformatics functions
-
-library(Rsamtools)
+# bioinformatics functions [requires Rsamtools]
 
 bamcoverage <- function (bamfile) {
   # read in the bam file
@@ -128,3 +107,17 @@ bamcoverage <- function (bamfile) {
   ## returns a coverage for each reference sequence (aka. chromosome) in the bam file
   return (mean(coverage(ranges)))      
 }
+
+# manage directory variable
+
+wd<-getwd()
+
+setwd<-function(){
+	setwd()
+	wd<<-getwd()
+}
+
+sopen<-function(path){system(paste("open",path))}
+
+
+
