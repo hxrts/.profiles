@@ -112,12 +112,21 @@ bamcoverage <- function (bamfile) {
 
 wd<-getwd()
 
-setwd<-function(){
-	setwd()
+cd<-function(path,...){
+	setwd(path,...)
 	wd<<-getwd()
 }
 
+# utilities
+
 sopen<-function(path){system(paste("open",path))}
+
+ls<-function(path,...){list.files(path,...)}
+
+editRprofile<-function(){system("$EDITOR ~/gitProfiles/.Rprofile")}
+pushRprofile<-function(message){system(paste("$(cd/gitProfiles; git sync \"",message,"\")",sep=""))}
+sourceRprofile<-function(){source("~/gitProfiles/.Rprofile")}
+
 
 
 
