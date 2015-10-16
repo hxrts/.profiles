@@ -4,9 +4,6 @@ set -o vi
 # set vim alias
 alias vi='vim -N'  
 
-# sublime text as default prompt text editor
-export EDITOR='/usr/local/bin/subl -w' # for sim link info and documentation go here http://www.sublimetext.com/docs/3/osx_command_line.html
-
 # colored ls
 platform='unknown'
 unamestr=`uname`
@@ -45,7 +42,6 @@ export GREP_OPTIONS='--color=auto'
 if [[ "$unamestr" == 'Linux' ]]; then
 	editor='vi'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-	editor='subl'
 fi
 
 # captain's log
