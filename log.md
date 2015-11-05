@@ -1,32 +1,70 @@
-### Qsub
+## QSUB
 
 qstat -u "*"
 
-### Make 
+
+
+## MAKE 
 
 make -f = specific file
 	 -n = simulate make
 
-### Command Line Progress Bar
 
-`bar -c 'iterated command | pipe chain' > out.txt`
 
-### Regex
+## REGEX
 
-#### match from 'somestring' to the end of the line
+### match from 'somestring' to the end of the line
 
-(somestring.*)$
+```(somestring.*)$```
 
-#### match from the beginning of the line to 'somestring'
 
-.*(somestring)
+### match from the beginning of the line to 'somestring'
 
-#### match between two strings
+```.*(somestring)```
 
+
+### match between two strings
+
+```
 (stringone)(.*)(stringtwo)		# between strings
 (?<=stringone)(.*)(?=stringtwo)		# including those strings
+```
 
-### GitHub Markdown
+
+## SYSTEM
+
+### find & move files
+
+```find . -name "*.extension" -exec mv {} ../siblingdir \;```
+
+
+
+## R
+
+### exel
+
+```read.xlsx()```
+```getSheets()```
+
+
+
+## Sublime
+
+### sublime console
+
+```Control + /````
+
+### go to
+
+```cmd + p```
+
+### command palette
+
+```cmd + P```
+
+
+
+## GitHub Markdown
 
 [https://help.github.com/articles/markdown-basics/](Markdown Basics)
 

@@ -53,7 +53,7 @@ alias work='ssh bermans@MSKI1132'
 alias hopp='ssh sam@hopp-cli'
 alias terra='ssh hxrts@terra.hxrts.com' # 104.236.26.234
 alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
-alias saba='ssh -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
+alias saba='ssh -X -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
 
 # formats history timestamping, call by using command 'history'
 export HISTTIMEFORMAT="%d/%m/%y %T "

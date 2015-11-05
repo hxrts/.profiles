@@ -5,13 +5,16 @@ options(width = 150)
 
 #suppressMessages(source("http://bioconductor.org/biocLite.R"))
 #uppressMessages(biocLite())
+
+suppressMessages(library(parallel))
+suppressMessages(library(xlsx))
 suppressMessages(library(Rsamtools))
 
 # helpful R functions
 
 ll <- function() {
         tmp<-sapply(ls(globalenv()), function(x) object.size(get(x,envir=globalenv())))
-        round(sort(tmp)/1024,1)
+        round(sort(tmp)/1024)
 }
 
 xw <- function(w,h) {x11(width=w,height=h)}
@@ -38,7 +41,7 @@ mcbatch <- function(objectList, fun, batch.size=1000, mc.cores=8, fallback.cores
 	unlist(mclres,recursive=FALSE)
 }
 
-g<-function() {graphics.off()}
+g <- function() {graphics.off()}
 
 list.as.data.frame <- function(x, row.names=NULL, optional=FALSE, ...) {
 	if(!all(unlist(lapply(x, class)) %in% 
@@ -108,25 +111,45 @@ bamcoverage <- function (bamfile) {
   return (mean(coverage(ranges)))      
 }
 
+# set common function defaults
+
+read.delim <- function(file,...){read.delim(file,sep="\t",stringsAsFactors=FALSE,...)}
+
+
 # manage directory variable
 
-wd<-getwd()
+wd <- function(path=".",...){getwd(path)}
 
-cd<-function(path,...){
+scd <- function(path,...){
 	setwd(path,...)
-	wd<<-getwd()
+	wd <<- getwd()
 }
+
+# permanantly set the CRAN REPO
+
+local({
+  r <- getOption("repos")
+  r["CRAN"] <- "http://cran.cnr.berkeley.edu/"
+  options(repos = r)
+})
+
+chooseCRANmirror(graphics=FALSE)
+chooseCRANmirror(20)
 
 # utilities
 
-sopen<-function(path){system(paste("open",path))}
+sopen <- function(path="."){system(paste("open",path))}
 
-ls<-function(path,...){list.files(path,...)}
+sls <- function(path=getwd(),...){list.files(path,...)}
 
-editRprofile<-function(){system("$EDITOR ~/gitProfiles/.Rprofile")}
-pushRprofile<-function(message){system(paste("$(cd/gitProfiles; git sync \"",message,"\")",sep=""))}
-sourceRprofile<-function(){source("~/gitProfiles/.Rprofile")}
+editRprofile <- function(){system("$EDITOR ~/gitProfiles/.Rprofile")}
+pushRprofile <- function(message){system(paste("$(cd/gitProfiles; git sync \"",message,"\")",sep=""))}
+sourceRprofile <- function(){source("~/gitProfiles/.Rprofile")}
+editLog <- function(){system("$EDITOR ~/gitProfiles/log.md")}
 
+round <- function(x){trunc(x+0.5)}
 
+# excel
+xlsxSheets <- function(file){names(getSheets(loadWorkbook(file)))}
 
 
