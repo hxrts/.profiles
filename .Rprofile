@@ -111,11 +111,6 @@ bamcoverage <- function (bamfile) {
   return (mean(coverage(ranges)))      
 }
 
-# set common function defaults
-
-read.delim <- function(file,...){read.delim(file,sep="\t",stringsAsFactors=FALSE,...)}
-
-
 # manage directory variable
 
 wd <- function(path=".",...){getwd(path)}
