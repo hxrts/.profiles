@@ -133,8 +133,7 @@ local({
   options(repos = r)
 })
 
-chooseCRANmirror(graphics=FALSE)
-chooseCRANmirror(20)
+chooseCRANmirror(0,graphics=FALSE)
 
 # utilities
 
