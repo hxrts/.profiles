@@ -1,70 +1,95 @@
-## QSUB
+# QSUB
 
 qstat -u "*"
 
+<!------------------------------------------------------------------------------------------------------------------------>
 
+# MAKE 
 
-## MAKE 
-
+## make runtime
 make -f = specific file
 	 -n = simulate make
 
 
+## writing make
 
-## REGEX
+### lazy Set
 
-### match from 'somestring' to the end of the line
+VARIABLE = value
+Normal setting of a variable - values within it are recursively expanded when the variable is used, not when it's declared
+
+### immediate Set
+
+VARIABLE := value
+Setting of a variable with simple expansion of the values inside - values within it are expanded at declaration time.
+
+### set if absent
+
+VARIABLE ?= value
+Setting of a variable only if it doesn't have a value
+
+### append
+
+VARIABLE += value
+Appending the supplied value to the existing value (or setting to that value if the variable didn't exist)
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+# REGEX
+
+## match from 'somestring' to the end of the line
 
 ```(somestring.*)$```
 
 
-### match from the beginning of the line to 'somestring'
+## match from the beginning of the line to 'somestring'
 
 ```.*(somestring)```
 
 
-### match between two strings
+## match between two strings
 
 ```
 (stringone)(.*)(stringtwo)		# between strings
 (?<=stringone)(.*)(?=stringtwo)		# including those strings
 ```
 
+<!------------------------------------------------------------------------------------------------------------------------>
 
-## SYSTEM
+# SYSTEM
 
-### find & move files
+# find & move files
 
 ```find . -name "*.extension" -exec mv {} ../siblingdir \;```
 
+<!------------------------------------------------------------------------------------------------------------------------>
 
+# R
 
-## R
-
-### exel
+## exel
 
 ```read.xlsx()```
 ```getSheets()```
 
+<!------------------------------------------------------------------------------------------------------------------------>
 
+# Sublime
 
-## Sublime
-
-### sublime console
+## sublime console
 
 ```Control + /````
 
-### go to
+## go to
 
 ```cmd + p```
 
-### command palette
+## command palette
 
 ```cmd + P```
 
+<!------------------------------------------------------------------------------------------------------------------------>
 
-
-## GitHub Markdown
+# GitHub Markdown
 
 [https://help.github.com/articles/markdown-basics/](Markdown Basics)
 
