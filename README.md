@@ -1,4 +1,4 @@
-gitprofiles
+gitProfiles
 ===========
 
 ## notes
@@ -25,4 +25,12 @@ add the following to ~/.gitconfig to source code in gitprofiles/.gitconfig
 ```
 [include]
 	path = gitProfiles/.gitconfig
+```
+
+### tmux
+add the following to ~/.tmux.conf to source coorosponding gitProfiles file
+
+```
+unbind r
+bind r source-file ~/gitProfiles/.tmux.conf
 ```
