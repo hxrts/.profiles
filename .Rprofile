@@ -128,7 +128,7 @@ local({
   options(repos = r)
 })
 
-chooseCRANmirror(0,graphics=FALSE)
+#chooseCRANmirror(0,graphics=FALSE)
 
 # utilities
 
@@ -141,7 +141,7 @@ pushRprofile <- function(message){system(paste("$(cd/gitProfiles; git sync \"",m
 sourceRprofile <- function(){source("~/gitProfiles/.Rprofile")}
 editLog <- function(){system("$EDITOR ~/gitProfiles/log.md")}
 
-round <- function(x){trunc(x+0.5)}
+rround <- function(x){trunc(x+0.5)}
 
 # excel
 xlsxSheets <- function(file){names(getSheets(loadWorkbook(file)))}

@@ -29,7 +29,7 @@ fi
 parse_git_branch() {
 	           git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 		   }
-		   export PS1="\[$(tput bold)\]\[$(tput setaf 7)\]\\$ \[$(tput setaf 6)\]\u\[$(tput setaf 7)\] @ \[$(tput setaf 4)\]\h\[$(tput setaf 7)\] : \[$(tput setaf 8)\]\w\[$(tput setaf 9)\]\$(parse_git_branch)\n> \[$(tput sgr0)\]"
+		   export PS1="\[$(tput bold)\]\[$(tput setaf 7)\]\\$ \[$(tput setaf 6)\]\u\[$(tput setaf 7)\] @ \[$(tput setaf 4)\]\h\[$(tput setaf 7)\] ◷ \[$(tput setaf 10)\]\D{%F %T}\[$(tput setaf 7)\] : \[$(tput setaf 8)\]\w\[$(tput setaf 9)\]\$(parse_git_branch)\n> \[$(tput sgr0)\]"
 
 # grep coloring
 export GREP_OPTIONS='--color=auto' 
@@ -59,5 +59,5 @@ alias saba='ssh -X -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
 # R supress intro
-alias R='R -q'
-alias r='r -q'
+#alias R='R -q'
+#alias r='r -q'
