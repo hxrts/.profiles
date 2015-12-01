@@ -7,9 +7,9 @@ for syncing profiles across machines
 
 ## instructions
 ### bash
-~/.bash\_profile should source gitprofiles folder with `source /full_path_to/gitProfiles/.bash_profile`
+~/.bash\_profile should source gitprofiles folder with `source ~/gitProfiles/.bash_profile`
 
-linux boxes can add to ~/.bashrc the following to source gitprofiles folder `source /full_path_to/gitProfiles/.bashrc`
+linux boxes can add to ~/.bashrc the following to source gitprofiles folder `source ~/gitProfiles/.bashrc`
 
 ### vim
 create directory ~/.vim/backup for vim backups
