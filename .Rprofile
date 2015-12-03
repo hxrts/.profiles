@@ -134,6 +134,8 @@ local({
 
 sopen <- function(path="."){system(paste("open",path))}
 
+sopn <- function(path="."){system(paste("opn",path))}
+
 sls <- function(path=getwd(),...){list.files(path,...)}
 
 editRprofile <- function(){system("$EDITOR ~/gitProfiles/.Rprofile")}

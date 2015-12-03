@@ -2,14 +2,18 @@
 
 qstat -u "*"
 
+qstat -r -u bermans
+
 <!------------------------------------------------------------------------------------------------------------------------>
 
-# MAKE 
+# MAKE & PIPELINE
+
+local run flag = ```USE_CLUSTER=false```
 
 ## make runtime
 make -f = specific file
 	 -n = simulate make
-
+	 -d = detailed output
 
 ## writing make
 
@@ -56,11 +60,17 @@ Appending the supplied value to the existing value (or setting to that value if 
 
 <!------------------------------------------------------------------------------------------------------------------------>
 
-# SYSTEM
+# System
 
-# find & move files
+## find & move files
 
 ```find . -name "*.extension" -exec mv {} ../siblingdir \;```
+
+# system processes
+
+```ps -u {username}```
+```htop -u {username}```
+
 
 <!------------------------------------------------------------------------------------------------------------------------>
 
@@ -86,6 +96,60 @@ Appending the supplied value to the existing value (or setting to that value if 
 ## command palette
 
 ```cmd + P```
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+# less
+
+/ – search for a pattern which will take you to the next occurrence.
+? – search for a pattern which will take you to the previous occurrence.
+n – next match
+N – previous match
+
+CTRL+F – forward one window
+CTRL+B – backward one window
+CTRL+D – forward half window
+CTRL+U – backward half window
+
+v – using the configured editor edit the current file.
+
+:n – go to the next file.
+:p – go to the previous file.
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+# nginx
+
+## nginx setup
+
+### proxy server configuration
+
+```vim /etc/nginx/sites-available/yourdomain```
+
+### enable proxy server configs
+
+```
+cd /etc/nginx/sites-enabled/ 
+ln -s /etc/nginx/sites-available/yourdomain yourdomain
+```
+
+## restart nginx
+
+```service nginx restart```
+
+### test if nginx is running
+
+```ps waux | grep nginx```
+
+### test nginx config
+
+```sudo nginx -t```
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+# node.js
+
+
 
 <!------------------------------------------------------------------------------------------------------------------------>
 
