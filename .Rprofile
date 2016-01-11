@@ -6,11 +6,19 @@ options(width = 150)
 #suppressMessages(source("http://bioconductor.org/biocLite.R"))
 #uppressMessages(biocLite())
 
-suppressMessages(library(parallel))
-suppressMessages(library(xlsx))
-suppressMessages(library(Rsamtools))
+#suppressMessages(library(parallel))
+#suppressMessages(library(openxlsx))
+#suppressMessages(require(dplyr))
+#suppressMessages(require(readr))
+#suppressMessages(require(stringr))
+#suppressMessages(require(tidyr))
+#suppressMessages(require(crayon))
+
+#suppressMessages(library(Rsamtools))
 
 # helpful R functions
+
+lv <- function() .Last.value
 
 ll <- function() {
         tmp<-sapply(ls(globalenv()), function(x) object.size(get(x,envir=globalenv())))
