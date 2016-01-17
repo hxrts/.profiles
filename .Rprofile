@@ -6,6 +6,24 @@ options(width = 150)
 #suppressMessages(source("http://bioconductor.org/biocLite.R"))
 #uppressMessages(biocLite())
 
+library(colorout)
+setOutputColors(
+	normal=8,
+	negnum=7,
+	zero=7,
+	number=7,
+	date=6,
+	string=4,
+	const=6,
+	false=5,
+	true=2,
+	infinite=6,
+	stderror=1,
+	warn=c(3,0,3),
+	error=c(1,0,1),
+	verbose=TRUE,
+	zero.limit=NA)
+
 #suppressMessages(library(parallel))
 #suppressMessages(library(openxlsx))
 #suppressMessages(require(dplyr))
