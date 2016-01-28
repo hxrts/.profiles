@@ -34,6 +34,9 @@ parse_git_branch() {
 # grep coloring
 export GREP_OPTIONS='--color=auto' 
 
+# rsync params
+alias rsync='rsync -rzvPh
+
 # RVM
 [[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # This loads NVM
