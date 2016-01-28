@@ -35,7 +35,7 @@ parse_git_branch() {
 export GREP_OPTIONS='--color=auto' 
 
 # rsync params
-alias rsync='rsync -rzvPh
+alias rsync='rsync -rzvPh'
 
 # RVM
 [[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
