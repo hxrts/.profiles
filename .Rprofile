@@ -3,9 +3,6 @@
 options(editor="subl")
 options(width = 150)
 
-#suppressMessages(source("http://bioconductor.org/biocLite.R"))
-#uppressMessages(biocLite())
-
 suppressMessages(library(colorout))
 suppressMessages(setOutputColors(
 	normal=8,
@@ -18,21 +15,16 @@ suppressMessages(setOutputColors(
 	false=5,
 	true=2,
 	infinite=6,
-	stderror=1,
+	stderror=8,
 	warn=c(3,0,3),
 	error=c(1,0,1),
-	verbose=TRUE,
+	verbose=FALSE,
 	zero.limit=NA))
 
-#suppressMessages(library(parallel))
-#suppressMessages(library(openxlsx))
-#suppressMessages(require(dplyr))
-#suppressMessages(require(readr))
-#suppressMessages(require(stringr))
-#suppressMessages(require(tidyr))
-#suppressMessages(require(crayon))
-
-#suppressMessages(library(Rsamtools))
+# load dplyr-family
+dplyr<-function(){
+	pacman::p_load(openxlsx,plyr,dplyr,readr,tidyr,magrittr,stringr,purrr,crayon)
+}
 
 # helpful R functions
 
