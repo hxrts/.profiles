@@ -26,6 +26,9 @@ dplyr<-function(){
 	pacman::p_load(openxlsx,plyr,dplyr,readr,tidyr,magrittr,stringr,purrr,crayon)
 }
 
+# get last value
+lv <- function(){.Last.value}
+
 # helpful R functions
 
 lv <- function() .Last.value
