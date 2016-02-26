@@ -52,15 +52,14 @@ fi
 alias log='$editor ~/gitProfiles/log.md'
 
 # locations
-alias work='ssh bermans@MSKI1132'
-alias hopp='ssh sam@hopp-cli'
 alias terra='ssh hxrts@terra.hxrts.com' # 104.236.26.234
 alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
+
+# msk locations
+alias work='ssh bermans@MSKI1132'
 alias saba='ssh -X -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
+alias unagi='ssh -X -i ~/.ssh/saba.private bermans@unagi.cbio.mskcc.org'
+alias e01='ssh -X -i ~/.ssh/saba.private bermans@e01.cbio.mskcc.org'
 
 # formats history timestamping, call by using command 'history'
 export HISTTIMEFORMAT="%d/%m/%y %T "
-
-# R supress intro
-#alias R='R -q'
-#alias r='r -q'

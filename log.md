@@ -21,6 +21,8 @@ make -f = specific file
 	 -n = simulate make
 	 -d = detailed output
 
+ssh e01 && make -j NUMCORES SOMEJOB```
+
 ## writing make
 
 ### lazy Set
