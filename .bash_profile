@@ -56,10 +56,16 @@ alias terra='ssh hxrts@terra.hxrts.com' # 104.236.26.234
 alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
 
 # msk locations
-alias work='ssh bermans@MSKI1132'
 alias saba='ssh -X -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
 alias unagi='ssh -X -i ~/.ssh/saba.private bermans@unagi.cbio.mskcc.org'
 alias e01='ssh -X -i ~/.ssh/saba.private bermans@e01.cbio.mskcc.org'
+alias e02='ssh -X -i ~/.ssh/saba.private bermans@e02.cbio.mskcc.org'
+alias e03='ssh -X -i ~/.ssh/saba.private bermans@e03.cbio.mskcc.org'
+alias e04='ssh -X -i ~/.ssh/saba.private bermans@e04.cbio.mskcc.org'
+alias e05='ssh -X -i ~/.ssh/saba.private bermans@e05.cbio.mskcc.org'
+alias e06='ssh -X -i ~/.ssh/saba.private bermans@e06.cbio.mskcc.org'
+alias ika='ssh -X -i ~/.ssh/saba.private bermans@ika.cbio.mskcc.org'
 
 # formats history timestamping, call by using command 'history'
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
