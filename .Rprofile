@@ -21,6 +21,8 @@ suppressMessages(setOutputColors(
 	verbose=FALSE,
 	zero.limit=NA))
 
+img <- function(file){system(str_c("imgcat ",file))}
+
 # load dplyr-family
 dplyr<-function(){
 	pacman::p_load(openxlsx,plyr,dplyr,readr,tidyr,magrittr,stringr,purrr,crayon)

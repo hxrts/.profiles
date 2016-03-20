@@ -7,7 +7,8 @@
 # add 'git sync' alias which is a pull, add -A, commit, push combination
 [alias]
 	sync = "!f(){ \
-		git pull && \
+		git fetch origin && \
+		git rebase && \
 		git add -A && \
 		git commit -m \"$1\" && \
 		git push; \
