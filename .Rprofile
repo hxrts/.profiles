@@ -4,42 +4,39 @@ options(editor="subl")
 options(width = 150)
 
 suppressMessages(library(colorout))
-suppressMessages(setOutputColors(
-	normal=8,
-	negnum=7,
-	zero=7,
-	number=7,
-	date=6,
-	string=4,
-	const=6,
-	false=5,
-	true=2,
-	infinite=6,
-	stderror=8,
-	warn=c(3,0,3),
-	error=c(1,0,1),
-	verbose=FALSE,
-	zero.limit=NA))
+suppressMessages(setOutputColors(normal=8,negnum=7,zero=7,number=7,date=6,string=4,const=6,false=5,true=2,infinite=6,stderror=8,warn=c(3,0,3),error=c(1,0,1),verbose=FALSE,zero.limit=NA))
 
 img <- function(file){system(str_c("imgcat ",file))}
 
 # load dplyr-family
 dplyr<-function(){
-	pacman::p_load(openxlsx,plyr,dplyr,readr,tidyr,magrittr,stringr,purrr,crayon)
+	pacman::p_load(openxlsx,dplyr,readr,tidyr,broom,magrittr,rlist,stringr,purrr,crayon,colorspace,ggplot2,gridExtra)
 }
 
+# dplyr print multi-line abbreviation
+p <- function(x,n){print(x=x,n=n)}
+
+# print random rows
+sp <-function(x,n){x %>% sample_n(n) %>% p(n)}
+
+# glimpse
+g <- function(x){glimpse(x)}
+
 # get last value
-lv <- function(){.Last.value}
-
-# helpful R functions
-
 lv <- function() .Last.value
 
+# list objects in oder
 ll <- function() {
         tmp<-sapply(ls(globalenv()), function(x) object.size(get(x,envir=globalenv())))
         round(sort(tmp)/1024)
 }
 
+# call img script to display imagecat in iterm tmux window
+img <- function(img.name,img.path=getwd()) {
+	system(paste("img ",img.path," ",img.path,"/",img.name,sep=""))
+}
+
+# define x window
 xw <- function(w,h) {x11(width=w,height=h)}
 
 write.data.frame<-function(d,...) {
@@ -64,7 +61,7 @@ mcbatch <- function(objectList, fun, batch.size=1000, mc.cores=8, fallback.cores
 	unlist(mclres,recursive=FALSE)
 }
 
-g <- function() {graphics.off()}
+g.off <- function() {graphics.off()}
 
 list.as.data.frame <- function(x, row.names=NULL, optional=FALSE, ...) {
 	if(!all(unlist(lapply(x, class)) %in% 
