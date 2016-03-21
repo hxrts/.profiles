@@ -8,9 +8,9 @@
 [alias]
 	sync = "!f(){ \
 		git fetch origin && \
-		git rebase && \
 		git add -A && \
 		git commit -m \"$1\" && \
+		git rebase && \
 		git push; \
 		}; f"
 
