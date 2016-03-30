@@ -8,10 +8,16 @@ suppressMessages(setOutputColors(normal=8,negnum=7,zero=7,number=7,date=6,string
 
 img <- function(file){system(str_c("imgcat ",file))}
 
+# bare imgcat
+function(file){system(paste("imgcat ",file))}
+
 # load dplyr-family
 dplyr<-function(){
 	pacman::p_load(openxlsx,dplyr,readr,tidyr,broom,magrittr,rlist,stringr,purrr,crayon,colorspace,ggplot2,gridExtra)
 }
+
+# unisort
+unisort <- function(x){x %>% sort %>% unique}
 
 # dplyr print multi-line abbreviation
 p <- function(x,n){print(x=x,n=n)}
