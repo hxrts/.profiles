@@ -3,6 +3,24 @@
 options(editor="subl")
 options(width = 150)
 
+.First <- function() {
+  options(
+    #repos = c(CRAN = "https://cran.rstudio.com/"),
+    browserNLdisabled = TRUE,
+    deparse.max.lines = 2)
+}
+
+# load dplyr-family
+dplyr <- function() {
+	requireNamespace('plyr')
+	pacman::p_load(openxlsx,dplyr,readr,tidyr,broom,magrittr,rlist,stringr,purrr,crayon,colorspace,RColorBrewer,ggplot2,grid,gridExtra)
+}
+
+if (interactive()) {
+        # dplyr()
+	suppressMessages(require(devtools))
+}
+
 suppressMessages(library(colorout))
 suppressMessages(setOutputColors(normal=8,negnum=7,zero=7,number=7,date=6,string=4,const=6,false=5,true=2,infinite=6,stderror=8,warn=c(3,0,3),error=c(1,0,1),verbose=FALSE,zero.limit=NA))
 
@@ -10,11 +28,6 @@ img <- function(file){system(str_c("imgcat ",file))}
 
 # bare imgcat
 function(file){system(paste("imgcat ",file))}
-
-# load dplyr-family
-dplyr<-function(){
-	pacman::p_load(openxlsx,dplyr,readr,tidyr,broom,magrittr,rlist,stringr,purrr,crayon,colorspace,ggplot2,gridExtra)
-}
 
 # unisort
 unisort <- function(x){x %>% sort %>% unique}
@@ -36,6 +49,8 @@ ll <- function() {
         tmp<-sapply(ls(globalenv()), function(x) object.size(get(x,envir=globalenv())))
         round(sort(tmp)/1024)
 }
+
+read.d <- function(x, ...) {read.delim(x, sep='\t',stringsAsFactors=FALSE) %>% tbl_df}
 
 # call img script to display imagecat in iterm tmux window
 img <- function(img.name,img.path=getwd()) {
