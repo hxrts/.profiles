@@ -51,3 +51,11 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+# iterm2 tab naming
+
+function title {
+	echo -ne "\033]0;"$*"\007"
+}
+
+
