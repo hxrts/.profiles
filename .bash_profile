@@ -1,4 +1,4 @@
-#set terminal in vi editing mode
+# set terminal to vi mode
 set -o vi
 
 # set vim alias
@@ -7,6 +7,7 @@ alias vi='vim -N'
 # colored ls
 platform='unknown'
 unamestr=`uname`
+
 if [[ "$unamestr" == 'Linux' ]]; then
   platform='Linux'
 elif [[ "$unamestr" == 'Darwin' ]]; then
@@ -15,7 +16,7 @@ fi
 
 if [[ $platform == 'Linux' ]]; then
   alias ls="ls -a --color"
-  eval 'dircolors ~/gitProfiles/dircolors.256dark' > /dev/null
+  eval 'dircolors ~/profiles/dircolors.256dark' > /dev/null
   export TERM=xterm-256color
   export LS_COLORS
 elif [[ $platform == 'Darwin' ]]; then
@@ -38,18 +39,18 @@ export GREP_OPTIONS='--color=auto'
 alias rsync='rsync -rzvPh'
 
 # RVM
-[[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # This loads NVM
+[[ -s "/Users/bermans/.rvm/scripts/rvm" ]] && source "/Users/bermans/.rvm/scripts/rvm"  # load RVM as function
+[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  # loads NVM
 
 # command log command
 if [[ "$unamestr" == 'Linux' ]]; then
 	editor='vi'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-  editor="subl"
+	editor="subl"
 fi
 
 # captain's log
-alias log='$editor ~/gitProfiles/log.md'
+alias log='$editor ~/log.md'
 
 # locations
 alias terra='ssh hxrts@terra.hxrts.com' # 104.236.26.234
