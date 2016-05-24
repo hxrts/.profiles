@@ -78,6 +78,7 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+execute pathogen#infect()
 
 " tmux clipboard share
 set clipboard=unnamed
