@@ -6,9 +6,9 @@ options(editor = 'subl')
 options(width = 150)
 
 
-#---------------
-# initialization
-#---------------
+#-----------------------
+# initialization options
+#-----------------------
 
 .First <- function() {
   options(
@@ -17,21 +17,20 @@ options(width = 150)
                deparse.max.lines = 2 )
 }
 
-
 #--------------
 # load packages
 #--------------
 
 libs <- function() {
 
-    # namespaced packages
-    suppressPackageStartupMessages(loadNamespace('plyr'))
-    suppressPackageStartupMessages(loadNamespace('data.table'))
+    # masked packages
+    suppressPackageStartupMessages(library(plyr))
+    suppressPackageStartupMessages(library(data.table))
 
     # main packages
-    pacman::p_load( colorout, devtools,                                         # utils
-                    crayon, colorspace, RColorBrewer,                           # coloring
-                    stats, rlist,                                               # working
+    pacman::p_load( devtools,                                                   # utils
+                    colorout, crayon, colorspace, RColorBrewer,                 # coloring
+                    rlist,                                                      # working
                     openxlsx, readr,                                            # IO
                     ggplot2, grid, gridExtra,                                   # plotting
                     lazyeval, tibble, dplyr, tidyr, magrittr, stringr, purrr )  # dplyr
@@ -181,6 +180,9 @@ img <- function(file){ system(str_c('imgcat ',file)) }
 #----------------------
 
 if (interactive()) {
+
+    # system initialization (loads system packages)
+    .First.sys()
 
     # load common libraries
     libs()
