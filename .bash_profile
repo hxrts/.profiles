@@ -58,4 +58,4 @@ alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
 # source shared tmux configuration
-tmux source-file ~/profiles/.tmux.conf
+tmux source-file ~/profiles/.tmux.conf > /dev/null 2>&1
