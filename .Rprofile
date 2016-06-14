@@ -62,6 +62,9 @@ ll <- function() {
     round(sort(tmp)/1024)
 }
 
+# refresh R environment
+makeActiveBinding("refresh", function() { system("R"); q("no") }, .GlobalEnv)
+
 
 #------------------
 # working functions 
@@ -69,6 +72,15 @@ ll <- function() {
 
 # more sensible rounding
 n_round <- function(x){ trunc(x+0.5) }
+
+# make multiple directories at once
+MakeDirs <- function(dir.list, debug=TRUE) {
+    dir.list %>% list.map({
+        dir <- .
+        if(debug){ message(blue(str_c('- making directory: ', dir))) }
+        dir.create(dir, recursive=TRUE, showWarnings=FALSE)
+    }) %>% invisible
+}
 
 # strip whitespace from string
 strip <- function(string) { gsub('^\\s+|\\s+$', '', string) }
