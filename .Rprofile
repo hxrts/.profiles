@@ -33,7 +33,8 @@ libs <- function() {
                     rlist,                                                      # working
                     openxlsx, readr,                                            # IO
                     ggplot2, grid, gridExtra,                                   # plotting
-                    lazyeval, tibble, dplyr, tidyr, magrittr, stringr, purrr )  # dplyr
+                    lazyeval, tibble, dplyr, tidyr, magrittr, stringr, purrr,   # dplyr
+                    matrixStats)                                                # matrix manipulation
 }
 
 
@@ -63,7 +64,7 @@ ll <- function() {
 }
 
 # refresh R environment
-makeActiveBinding("refresh", function() { system("R"); q("no") }, .GlobalEnv)
+# makeActiveBinding("refresh", function() { system("R"); q("no") }, .GlobalEnv)
 
 
 #------------------
