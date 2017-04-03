@@ -28,13 +28,13 @@ libs <- function() {
     suppressPackageStartupMessages(library(data.table))
 
     # main packages
-    pacman::p_load( devtools,                                                   # utils
-                    colorout, crayon, colorspace, RColorBrewer,                 # coloring
-                    rlist,                                                      # working
-                    openxlsx, readr,                                            # IO
-                    ggplot2, grid, gridExtra,                                   # plotting
-                    lazyeval, tibble, dplyr, tidyr, magrittr, stringr, purrr,   # dplyr
-                    matrixStats)                                                # matrix manipulation
+    pacman::p_load( devtools,                                                         # utils
+                    colorout, crayon, colorspace, RColorBrewer,                       # coloring
+                    rlist,                                                            # working
+                    openxlsx, readr,                                                  # IO
+                    ggplot2, grid, gridExtra, scales,                                 # plotting
+                    lazyeval, tibble, dplyr, tidyr, magrittr, stringr, purrr, broom,  # dplyr
+                    matrixStats)                                                      # matrix manipulation
 }
 
 
@@ -71,6 +71,9 @@ ll <- function() {
 # working functions 
 #------------------
 
+# play a sound
+Notify <- function() { system('afplay /System/Library/Sounds/Hero.aiff') }
+
 # more sensible rounding
 n_round <- function(x){ trunc(x+0.5) }
 
@@ -102,6 +105,26 @@ mc_batch <- function(objectList, fun, batch.size=1000, mc.cores=8, fallback.core
     unlist(mclres, recursive=FALSE)
 }
 
+# format vector for code use
+PrintVector <- function(vector) {
+
+   out.vector <-
+      c( str_c("'", vector[1]),
+         vector[2:length(vector)],
+         str_c(vector[length(vector)], "'") )
+
+   cat(out.vector, sep = "', '")
+
+}
+
+Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+}
+
+
+SplitList <- function(x, length) { split(x, ceiling(seq_along(x) / length)) }
+
 
 #------
 # I / O
@@ -125,16 +148,18 @@ write_df <- function(d, ...) {
 #----------------
 
 # print multi-line abbreviation
-`%p%` <- p <- function(x, n){ print(x=x, n=n) }
+`%p%` <- p <- function(x, n = Inf) {print(x = x, n = n)}
 
 # print random rows
-`%sp%` <- sp <- function(x, n){ x %>% sample_n(n) %>% p(n) }
+`%sp%` <- sp <- function(x, n) {x %>% sample_n(n) %>% p(n)}
 
 # glimpse
-`%g%` <- g <- function(x, w=NULL){ glimpse(x, width=w) }
+`%g%` <- g <- function(x, w = NULL) {glimpse(x, width = w)}
+
+`%!in%` <- function(x, y) {!('%in%'(x, y))}
 
 # unisort
-usort <- function(x){ x %>% sort %>% unique }
+usort <- function(x) {x %>% sort %>% unique}
 
 
 #------------------
@@ -142,17 +167,17 @@ usort <- function(x){ x %>% sort %>% unique }
 #------------------
 
 # get working directory abbreviation
-pwd <- function(path='.', ...){ getwd(path) }
+pwd <- function() {getwd()}
 
 # change working directory & manage wd variable
-cd <- function(path, ...){
+cd <- function(path, ...) {
     setwd(path, ...)
     wd <<- getwd()
 }
 
 # open file or folder
-opn <- function(path="."){ 
-    if(system('if [[ $(who am i) =~ \\([0-9\\.]+\\)$ || "${PWD##/Volumes/}" == "${PWD}" ]]; then echo REMOTE; else echo LOCAL; fi', intern=TRUE) == 'REMOTE') {
+opn <- function(path = '.') { 
+    if(system('if [[ $(who am i) =~ \\([0-9\\.]+\\)$ ]]; then echo REMOTE; else echo LOCAL; fi', intern = TRUE) == 'REMOTE') {
         system(paste('opn', path))
     } else {
         system(paste('open', path))
@@ -160,7 +185,7 @@ opn <- function(path="."){
 }
 
 # list system files
-lf <- function( path=getwd(), ...){ list.files(path, ...) }
+lf <- function( path = getwd(), ...){ list.files(path, ...) }
 
 
 #--------------------

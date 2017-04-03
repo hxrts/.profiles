@@ -2,7 +2,7 @@
 set -o vi
 
 # set vim alias
-alias vi='vim -N'  
+alias vi='nvim -N'  
 
 # platform info
 platform='unknown'
