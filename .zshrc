@@ -11,7 +11,7 @@ export PATH=$PATH:$HOME/bin:/usr/local/bin
 #----
 
 # path to oh-my-zsh installation
-export ZSH=/Users/hxrts/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # operations
 ZSH_THEME='pure'
@@ -48,6 +48,8 @@ source $ZSH/oh-my-zsh.sh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 export PKG_CONFIG_PATH=/usr/local/Cellar/poppler/0.53.0/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig
+
+export PATH="/Users/hxrts/miniconda3/bin:$PATH"
 
 #------------
 # APP ALIASES

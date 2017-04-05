@@ -7,4 +7,4 @@ for syncing profile settings across machines
 
 1. make sure rsa keys are setup for github
 
-2. from home directory run ~/profiles/init.sh
+2. symbolic link relevant profiles
