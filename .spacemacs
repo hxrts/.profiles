@@ -16,26 +16,23 @@
 
    ;; load configuration layers
    dotspacemacs-configuration-layers
-   '((shell :variables
+    '((shell :variables
             shell-default-shell 'multi-term
-            shell-default-term-shell "/usr/local/bin/zsh")  ; shell
-     osx better-defaults helm emacs-lisp                    ; system
-     git version-control                                    ; version-control
-     markdown html python ess clojure                       ; languages
-     auto-completion spell-checking syntax-checking         ; correction
-     typography emoji pdf-tools                             ; typography
-     slack)                                                 ; messaging
-
-   ;(with-eval-after-load 'org (setq-default dotspacemacs-configuration-layers
-   ;  '( (org :variables ;org-enable-github-support t
-   ;  org-enable-bootstrap-support t org-enable-reveal-js-support t
-   ;  org-projectile-file "TODO.org")) (setq org-bullets-bullet-list '("◉" "○"
-   ;  "▣" "□")) (require 'org-projectile) (push (org-projectile:todo-files)
-   ;  org-agenda-files)) ) )
+            shell-default-term-shell "/usr/local/bin/zsh")    ; shell
+     osx better-defaults helm emacs-lisp                      ; system
+     git version-control                                      ; version-control
+     markdown html python ess clojure                         ; languages
+     semantic auto-completion spell-checking syntax-checking  ; correction
+     evil-cleverparens evil-snipe                             ; evil
+     typography emoji pdf-tools                               ; typography
+     slack                                                    ; messaging
+     search-engine)
 
    ;; additional unwrapped packages configuration in `dotspacemacs/user-config'
    dotspacemacs-additional-packages '(all-the-icons
-                                      all-the-icons-dired)
+                                      all-the-icons-dired
+                                      evil-vimish-fold
+                                      highlight-indent-guides)
 
    ;; packages that cannot be updated
    dotspacemacs-frozen-packages '()
@@ -110,11 +107,12 @@
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
-    dotspacemacs-default-font '("Input"
-                                :size 13
+   dotspacemacs-default-font '("Iosevka"
+                               ;"Input"
+                                :size 13.5
                                 :weight normal
                                 :width normal
-                                :powerline-scale 1.1)
+                                :powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -227,7 +225,7 @@
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -287,10 +285,10 @@
   ; DISPLAY
   ;--------
 
-;  (menu-bar-mode -1)
-;  (tool-bar-mode 0)
-;  (spacemacs/toggle-fringe-off)
-;  (toggle-frame-fullscreen)
+  (menu-bar-mode -1)
+  ;(tool-bar-mode 0)
+  ;(spacemacs/toggle-fringe-off)
+  (toggle-frame-fullscreen)
 
 
    ;(with-eval-after-load 'org "~/.emacs_config.org")
@@ -301,15 +299,52 @@
 
   (setq evil-want-fine-undo 'fine)
   (setq powerline-default-separator 'slant)
-  ;(setq powerline-default-separator 'utf-8)
   (spacemacs/toggle-highlight-current-line-globally-off)
+
+  (spacemacs/toggle-evil-cleverparens-on)
+  (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
+
+
+;; make whitespace-mode use just basic coloring
+
+(setq whitespace-line-column fill-column)
+(setq whitespace-style
+  '(face lines-tail trailing tabs empty))
+(global-whitespace-mode +1)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(setq whitespace-display-mappings
+  ;; all numbers are Unicode codepoint in decimal. ⁖ (insert-char 182 1)
+  '(
+    (space-mark 32 [183] [46])   ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+    (newline-mark 10 [182 10])   ; 10 LINE FEED
+    (tab-mark 9 [9655 9] [92 9]) ; 9  TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+  ))
+
+  ;; vim-style code folding
+  (evil-vimish-fold-mode 1)
+
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character)
+
+  (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
 
 
   ;;------
   ;; THEME
   ;;------
 
+  (use-package nlinum-relative
+    :config
+    ;; something else you want
+    (nlinum-relative-setup-evil)
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+
   (spaceline-compile)
+
+  (use-package all-the-icons)
+  (use-package all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
   (require 'doom-themes)
   (load-theme 'doom-one t)
@@ -343,42 +378,96 @@
         org-fontify-quote-and-verse-blocks t)
 
   (require 'doom-neotree)
-  (use-package all-the-icons)
 
-  ;(neo-show-header to nil)
+  (defun neotree-project-dir-toggle ()
+  "Open NeoTree in project root with find-file-in-project,
+   or the current buffer directory."
+    (interactive)
+    (let ((project-dir
+           (ignore-errors
+           ;;; Pick one: projectile or find-file-in-project
+         ; (projectile-project-root)
+             (ffip-project-root)
+           ))
+          (file-name (buffer-file-name))
+          (neo-smart-open t))
+        (if (and (fboundp 'neo-global--window-exists-p)
+             (neo-global--window-exists-p))
+          (neotree-hide)
+        (progn
+          (neotree-show)
+          (if project-dir
+              (neotree-dir project-dir))
+          (if file-name
+              (neotree-find file-name))))))
+
+  (define-key global-map (kbd "M-e") 'neotree-project-dir-toggle)
+
+  ;;------
+  ;; SLACK
+  ;;------
+
+;;  (slack-register-team
+;;   :name "emacs-daemon"
+;;   :default t
+;;   :client-id "3429687138.160486799190"
+;;   :client-secret "45dfffa979b17789bb7bb90233f9b9e1"
+;;   :token ""
+;;   :subscribed-channels '(random))
 
 
-  ;------
-  ; SLACK
-  ;------
+  ;;---
+  ;; SX
+  ;;---
 
-;  (slack-register-team
-;   :name "emacs-daemon"
-;   :default t
-;   :client-id "3429687138.160486799190"
-;   :client-secret "45dfffa979b17789bb7bb90233f9b9e1"
-;   :token ""
-;   :subscribed-channels '(random))
+  (require 'use-package)
 
+  (use-package sx
+    :config
+    (bind-keys :prefix "C-c s"
+               :prefix-map my-sx-map
+               :prefix-docstring "Global keymap for SX."
+               ("q" . sx-tab-all-questions)
+               ("i" . sx-inbox)
+               ("o" . sx-open-link)
+               ("u" . sx-tab-unanswered-my-tags)
+               ("a" . sx-ask)
+               ("s" . sx-search)))
 
-  ;---------
-  ; ORG MODE
-  ;---------
+  (define-prefix-command 'launcher-map)
+  (global-set-key (kbd "s-l") 'launcher-map)
+  (define-key launcher-map "qq" #'sx-tab-all-questions)
+  (define-key launcher-map "qi" #'sx-inbox)
+  (define-key launcher-map "qo" #'sx-open-link)
+  (define-key launcher-map "qu" #'sx-tab-unanswered-my-tags)
+  (define-key launcher-map "qa" #'sx-ask)
+  (define-key launcher-map "qs" #'sx-search)
+
+  ;;---------
+  ;; ORG MODE
+  ;;---------
 
   (require 'org-bullets)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 
-  ;----------
-  ; DASHBOARD
-  ;----------
+  ;;----------
+  ;; DASHBOARD
+  ;;----------
 
-  ; (switch-to-buffer "*scratch*")
+  (switch-to-buffer "*scratch*")
 
 
-  ;------
-  ; SHELL
-  ;------
+  ;;----------------
+  ;; file navigation
+  ;;----------------
+
+  (setq vc-follow-symlinks t)
+
+
+  ;;------
+  ;; SHELL
+  ;;------
 
   (defadvice multi-term (after advise-multi-term-coding-system)
     (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
@@ -391,9 +480,9 @@
   (setq multi-term-program "/usr/local/bin/zsh")
 
 
-  ;------
-  ; MELPA
-  ;------
+  ;;------
+  ;; MELPA
+  ;;------
 
   (require 'package)
   (add-to-list 'package-archives
@@ -403,9 +492,9 @@
     (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
   (package-initialize)
 
-  ;----------
-  ; PDF TOOLS
-  ;----------
+  ;;----------
+  ;; PDF TOOLS
+  ;;----------
 
 ;  (use-package pdf-tools
 ;    :ensure t
@@ -418,9 +507,9 @@
 ) ; /user-config
 
 
-;~~~~~~~~~~~~~~~~~~~~~
-; auto-generated below
-;~~~~~~~~~~~~~~~~~~~~~
+;;;~~~~~~~~~~~~~~~~~~~~~
+;;; auto-generated below
+;;;~~~~~~~~~~~~~~~~~~~~~
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -430,7 +519,7 @@
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (highlight-indent-guides vimish-fold evil-vimish-fold engine-mode sx stickyfunc-enhance srefactor evil-snipe evil-cleverparens diredful hl-line+ nlinum all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(pdf-tools-handle-upgrades nil))
 
 (custom-set-faces

@@ -14,14 +14,14 @@ export PATH=$PATH:$HOME/bin:/usr/local/bin
 export ZSH=~/.oh-my-zsh
 
 # operations
-ZSH_THEME='pure'
+ZSH_THEME="refined"
 
 COMPLETION_WAITING_DOTS='true'
 
 HIST_STAMPS="dd.mm.yyyy"
 
 # plugins found in ~/.oh-my-zsh/plugins/  +  ~/.oh-my-zsh/custom/plugins/
-plugins=(osx history jsontools vi-mode tmux git git-extras man colorize colored-man-pages docker rsync brew npm lein)
+plugins=(osx jsontools vi-mode tmux git git-extras man colorize colored-man-pages docker rsync brew npm lein)
 
 source $ZSH/oh-my-zsh.sh
 
