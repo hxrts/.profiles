@@ -12,7 +12,7 @@ options(width = 150)
 
 .First <- function() {
   options(
-    repos = c( CRAN = 'http://cran.rstudio.com/'),
+    repos = c( CRAN = 'http://cran.rstudio.com/', 'http://cran.r-project.org'),
                browserNLdisabled = TRUE,
                deparse.max.lines = 2 )
 }
@@ -68,7 +68,7 @@ ll <- function() {
 
 
 #------------------
-# working functions 
+# working functions
 #------------------
 
 # play a sound
@@ -176,7 +176,7 @@ cd <- function(path, ...) {
 }
 
 # open file or folder
-opn <- function(path = '.') { 
+opn <- function(path = '.') {
     if(system('if [[ $(who am i) =~ \\([0-9\\.]+\\)$ ]]; then echo REMOTE; else echo LOCAL; fi', intern = TRUE) == 'REMOTE') {
         system(paste('opn', path))
     } else {
@@ -210,7 +210,7 @@ source_rp <- function(){ source('~/gitProfiles/.Rprofile') }
 edit_log <- function(){system("$EDITOR ~/gitProfiles/log.md")}
 
 # imgcat function
-img <- function(file){ system(str_c('imgcat ',file)) }
+img <- function(file){ system(str_c('imgcat ', file)) }
 
 
 #----------------------
@@ -227,6 +227,10 @@ if (interactive()) {
 
     # set command line coloring
     suppressMessages(setOutputColors(normal=8, negnum=7, zero=7, number=7, date=6, string=4, const=6, false=5, true=2, infinite=6, stderror=8, warn=c(3,0,3), error=c(1,0,1), verbose=FALSE, zero.limit=NA))
+
+    # emacs config
+    require(grDevices)
+    X11.options(type = 'cairo')
+    x11(xpos = -1, ypos = -1)
+
 }
-
-

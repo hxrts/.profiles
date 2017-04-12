@@ -16,7 +16,9 @@
 
    ;; load configuration layers
    dotspacemacs-configuration-layers
-    '((shell :variables
+   '((
+      javascript
+      javascriptshell :variables
             shell-default-shell 'multi-term
             shell-default-term-shell "/usr/local/bin/zsh")    ; shell
      osx better-defaults helm emacs-lisp                      ; system
@@ -58,7 +60,7 @@
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-https nil
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
    ;; If non nil then spacemacs will check for updates at startup
@@ -260,13 +262,32 @@
    ))
 
 
+;;----------
+;; FUNCTIONS
+;;----------
+
+(defun my-setup-indent (n)
+  ;; java/c/c++
+  (setq c-basic-offset n)
+  ;; web development
+  (setq coffee-tab-width n) ; coffeescript
+  (setq javascript-indent-level n) ; javascript-mode
+  (setq js-indent-level n) ; js-mode
+  (setq js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+  (setq web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+  (setq web-mode-css-indent-offset n) ; web-mode, css in html file
+  (setq web-mode-code-indent-offset n) ; web-mode, js code in html file
+  (setq css-indent-offset n) ; css-mode
+  )
+
+
 ;~~~~~~~~~~
 ; USER INIT
 ;~~~~~~~~~~
 
 
 (defun dotspacemacs/user-init ()
-  "initialize user code. called immediately after `dotspacemacs/init', before layer configuration"
+  (my-setup-indent 2)
 )
 
 
@@ -277,13 +298,14 @@
 (defun dotspacemacs/user-config ()
   "user configuration function called at end of Spacemacs initialization after layers configuration"
 
-(setq tramp-ssh-controlmaster-options
+  (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-(require 'tramp)
+ (require 'tramp)
 
   ;--------
   ; DISPLAY
   ;--------
+
 
   (menu-bar-mode -1)
   ;(tool-bar-mode 0)
@@ -297,6 +319,9 @@
   ; EVIL MODE
   ;----------
 
+  (setq-default indent-tabs-mode t)
+  (setq-default tab-width 3)
+
   (setq evil-want-fine-undo 'fine)
   (setq powerline-default-separator 'slant)
   (spacemacs/toggle-highlight-current-line-globally-off)
@@ -305,21 +330,20 @@
   (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
 
 
-;; make whitespace-mode use just basic coloring
+   ;; make whitespace-mode use just basic coloring
+ (setq whitespace-line-column fill-column)
+  (setq whitespace-style
+   '(face lines-tail trailing tabs empty))
+   (global-whitespace-mode +1)
+   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(setq whitespace-line-column fill-column)
-(setq whitespace-style
-  '(face lines-tail trailing tabs empty))
-(global-whitespace-mode +1)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(setq whitespace-display-mappings
-  ;; all numbers are Unicode codepoint in decimal. ⁖ (insert-char 182 1)
+   (setq whitespace-display-mappings
+ ;; all numbers are Unicode codepoint in decimal. ⁖ (insert-char 182 1)
   '(
-    (space-mark 32 [183] [46])   ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
-    (newline-mark 10 [182 10])   ; 10 LINE FEED
-    (tab-mark 9 [9655 9] [92 9]) ; 9  TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
-  ))
+   (space-mark 32 [183] [46])   ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+   (newline-mark 10 [182 10])   ; 10 LINE FEED
+   (tab-mark 9 [9655 9] [92 9]) ; 9  TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+   ))
 
   ;; vim-style code folding
   (evil-vimish-fold-mode 1)
@@ -403,6 +427,7 @@
 
   (define-key global-map (kbd "M-e") 'neotree-project-dir-toggle)
 
+
   ;;------
   ;; SLACK
   ;;------
@@ -456,6 +481,7 @@
   ;;----------
 
   (switch-to-buffer "*scratch*")
+   (neotree-show)
 
 
   ;;----------------
@@ -519,7 +545,7 @@
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (highlight-indent-guides vimish-fold evil-vimish-fold engine-mode sx stickyfunc-enhance srefactor evil-snipe evil-cleverparens diredful hl-line+ nlinum all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (doom-themes font-lock+ web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode highlight-indent-guides vimish-fold evil-vimish-fold engine-mode sx stickyfunc-enhance srefactor evil-snipe evil-cleverparens diredful hl-line+ nlinum all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(pdf-tools-handle-upgrades nil))
 
 (custom-set-faces
