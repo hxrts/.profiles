@@ -231,6 +231,5 @@ if (interactive()) {
     # emacs config
     require(grDevices)
     X11.options(type = 'cairo')
-    x11(xpos = -1, ypos = -1)
 
 }

@@ -1,11 +1,4 @@
 
-#-----
-# PATH
-#-----
-
-export PATH=$PATH:$HOME/bin:/usr/local/bin
-
-
 #----
 # ZSH
 #----
@@ -21,9 +14,12 @@ COMPLETION_WAITING_DOTS='true'
 HIST_STAMPS="dd.mm.yyyy"
 
 # plugins found in ~/.oh-my-zsh/plugins/  +  ~/.oh-my-zsh/custom/plugins/
-plugins=(osx jsontools vi-mode tmux git git-extras man colorize colored-man-pages docker rsync brew npm lein)
+plugins=(osx jsontools vi-mode tmux git git-extras z man colorize colored-man-pages docker rsync brew npm lein)
 
 source $ZSH/oh-my-zsh.sh
+
+. ~/.oh-my-zsh/plugins/z/z.sh
+
 
 #------------
 # USER CONFIG
@@ -44,12 +40,7 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export PKG_CONFIG_PATH=/usr/local/Cellar/poppler/0.53.0/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig
-
-export PATH="/Users/hxrts/miniconda3/bin:$PATH"
 
 #------------
 # APP ALIASES
@@ -83,4 +74,11 @@ alias juno='ssh admin@juno.hxrts.com'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
+
+
+#----
+# SSH
+#----
+
+export SSH_KEY_PATH="~/.ssh/id_rsa"
 
