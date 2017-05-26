@@ -40,10 +40,10 @@ platform='unknown'
 unamestr=`uname`
 
 if [[ "$unamestr" == 'Linux' ]]; then
-    alias ls="ls -GFha --color"
     eval 'dircolors ~/.profiles/dircolors.256dark' > /dev/null
     export TERM=xterm-256color
     export LS_COLORS
+    alias ls="ls -GFha --color"
 elif [[ "$unamestr" == 'Darwin' ]]; then
     export CLICOLOR=1
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD

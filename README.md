@@ -11,6 +11,7 @@ for syncing profile settings across machines
 - tmux
 - nvim
 - pathogen
+- emacs
 - rvm
 - miniconda
 - tree
