@@ -1,6 +1,3 @@
 [submodule "pure"]
 	path = pure
 	url = git@github.com:hxrts/pure.git
-[submodule "emacs/spacemacs-emms"]
-	path = emacs/spacemacs-emms
-	url = git@github.com:K0HAX/spacemacs-emms.git

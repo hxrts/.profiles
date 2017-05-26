@@ -3,8 +3,24 @@ profiles
 
 for syncing profile settings across machines
 
+## installation prep
+
+- git
+- zsh
+- oh-my-zsh
+- tmux
+- nvim
+- pathogen
+- rvm
+- miniconda
+- tree
+- R
+
+
 ## instructions
 
-1. make sure rsa keys are setup for github
+1. `git clone https://github.com/hxrts/.profiles`
 
-2. symbolic link relevant profiles
+2. `git submodule update --recursive --remote`
+
+3. sh ~/.profiles/init.sh
