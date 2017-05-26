@@ -15,8 +15,8 @@ fi
 
 # colored ls
 if [[ $platform == 'Linux' ]]; then
-    alias ls="ls -a --color"
-    eval 'dircolors ~/profiles/dircolors.256dark' > /dev/null
+    alias ls="ls -GFha --color"
+    eval 'dircolors ~/.profiles/dircolors.256dark' > /dev/null
     export TERM=xterm-256color
     export LS_COLORS
 elif [[ $platform == 'Darwin' ]]; then
@@ -58,7 +58,7 @@ alias juno='ssh admin@juno.hxrts.com' # 74.66.134.22
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
 # source shared tmux configuration
-tmux source-file ~/profiles/.tmux.conf > /dev/null 2>&1
+tmux source-file ~/.profiles/.tmux.conf > /dev/null 2>&1
 
 smartresize() {
 	mogrify -path $3 -filter Triangle -define filter:support=2 -thumbnail $2 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB $1
