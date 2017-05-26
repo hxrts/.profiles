@@ -41,6 +41,7 @@
                                        slack
                                        emms
                                        search-engine
+                                       theming
                                        )
 
    ;; put additional unwrapped packages configuration in `dotspacemacs/user-config'
@@ -53,6 +54,8 @@
                                       wgrep
                                       git-gutter-fringe
                                       org-bullets
+                                      dired-hacks-utils
+                                      dired-filter
                                       )
 
    ;; packages prevented update
@@ -182,7 +185,7 @@
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smooth-scrolling nil
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
@@ -219,6 +222,15 @@
 
 
 (defun dotspacemacs/user-init ()
+  ;;-----------
+  ;; THEME MODS
+  ;;-----------
+
+  (setq theming-modifications
+        '((doom-one
+           (font-lock-function-name-face :slant italic)
+           ))
+        )
   )
 
 (defun mac-toggle-max-window ()
@@ -260,11 +272,31 @@
   (set-selection-coding-system            'utf-8)
   (setq locale-coding-system              'utf-8)
   (setq-default buffer-file-coding-system 'utf-8)
- 
+
   (global-set-key [double-wheel-down] nil)
   (global-set-key [triple-wheel-down] nil)
   (global-set-key [double-wheel-up] nil)
   (global-set-key [triple-wheel-up] nil)
+  (spacemacs/set-leader-keys "w1" 'spacemacs/toggle-maximize-buffer)
+
+  (bind-keys :map dired-mode-map
+             :prefix "C-,"
+             :prefix-map dired-subtree-map
+             :prefix-docstring "Dired subtree map."
+             ("C-i"     . dired-subtree-insert)
+             ("C-/"     . dired-subtree-apply-filter)
+             ("C-k"     . dired-subtree-remove)
+             ("C-n"     . dired-subtree-next-sibling)
+             ("C-p"     . dired-subtree-previous-sibling)
+             ("C-u"     . dired-subtree-up)
+             ("C-d"     . dired-subtree-down)
+             ("C-a"     . dired-subtree-beginning)
+             ("C-e"     . dired-subtree-end)
+             ("m"       . dired-subtree-mark-subtree)
+             ("u"       . dired-subtree-unmark-subtree)
+             ("C-o C-f" . dired-subtree-only-this-file)
+             ("C-o C-d" . dired-subtree-only-this-directory))
+
 
   (setq ns-pop-up-frames nil)
 
@@ -274,9 +306,6 @@
   ;;----------------
 
   (setq vc-follow-symlinks t)
-  '(ranger :variables
-           ranger-show-preview t)
-
   ;; reopen the last killed buffer
   (require 'cl)
   (require 'recentf)
@@ -307,18 +336,22 @@
   (evil-vimish-fold-mode 1)
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
 
-  ;(load-file "~/elisp/foo.el")
 
-  ;;------
-  ;; THEME
-  ;;------
+
+  ;; ;;------
+  ;; ;; THEME
+  ;; ;;------
 
   (use-package all-the-icons)
+  (setq all-the-icons-color-icons nil)
   (use-package all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
   (require 'doom-themes)
   (load-theme 'doom-one t)
+
+  ;; (setq doom-neotree-enable-type-colors nil)
+
 
   (setq doom-enable-bold t
         doom-enable-italic t
@@ -333,10 +366,10 @@
   ;; brighter minibuffer when active
   (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
 
-  ;; use ls-lisp
-  (when (eq system-type 'darwin)
-    (require 'ls-lisp)
-    (setq ls-lisp-use-insert-directory-program nil))
+  ;; ;; use ls-lisp
+  ;; (when (eq system-type 'darwin)
+  ;;   (require 'ls-lisp)
+  ;;   (setq ls-lisp-use-insert-directory-program nil))
 
   ;;; DOOM neotree
   (setq org-fontify-whole-heading-line t
@@ -348,6 +381,7 @@
         doom-neotree-line-spacing 2)
 
   (setq neo-banner-message nil) ; turn off neo help message
+  (setq-default neo-show-hidden-files nil)
   (require 'doom-neotree)       ; requires all-the-icons fonts
   (require 'doom-nlinum)        ; requires nlinum & hl-line-mode
 
@@ -374,7 +408,15 @@
 
 
   (define-key global-map (kbd "M-e") 'neotree-project-dir-toggle)
-
+  (ranger-override-dired-mode t)
+  (setq ranger-cleanup-on-disable t)
+  (setq ranger-cleanup-eagerly t)
+  ;(setq ranger-width-parents 0.20)
+  (setq ranger-parent-depth 0)
+  ;(setq ranger-width-preview 0.50)
+  (setq ranger-excluded-extensions '("mkv" "iso" "mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg"))
+  (setq ranger-dont-show-binary t)
+  (setq neo-theme 'icons)
 
   ;;---
   ;; SX
@@ -392,6 +434,8 @@
   ;;---------
 
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-bullets-bullet-list
+        '("☉" "◯" "◉" "-" "+" "◇"))
 
 
   ;;------
@@ -401,7 +445,7 @@
   (setenv "TERMINFO" "~/.terminfo")
   (setenv "TERM" "xterm-256color")
   ;(setq system-uses-terminfo nil)
-
+ 
   (defadvice ansi-term (after advise-ansi-term-coding-system)
     (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
   (ad-activate 'ansi-term)
@@ -428,6 +472,8 @@
   (add-hook 'ess-mode-hook
             (lambda ()
               (ess-toggle-underscore nil)))
+  (add-to-list 'auto-mode-alist '("\\.R$" . R-mode))
+
 
   ;;------
   ;; MELPA
@@ -515,10 +561,17 @@
   (setq-default cursor-in-non-selected-windows nil)
   ;(spacemacs/layout-double-columns)
   (switch-to-buffer "*scratch*")
-  (neotree-show)
+  ;; (neotree-show)
+  ;(select-window-0)
   (display-time-mode 1)
   (spacemacs/toggle-fullscreen-frame-on)
   (spaceline-compile)
+  (setq redisplay-dont-pause t)
+  (setq redisplay-dont-pause t
+        scroll-margin 100
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
 
   ) ;; /user-config
 
@@ -535,7 +588,7 @@
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (rainbow-mode rainbow-identifiers color-identifiers-mode mode-icons spaceline-all-the-icons wgrep evil-multiedit counsel swiper ivy ranger emms doom-themes font-lock+ web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode highlight-indent-guides vimish-fold evil-vimish-fold engine-mode sx stickyfunc-enhance srefactor evil-snipe evil-cleverparens diredful hl-line+ nlinum all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (dired-filter dired-hacks-utils fontawesome rainbow-mode rainbow-identifiers color-identifiers-mode mode-icons spaceline-all-the-icons wgrep evil-multiedit counsel swiper ivy ranger emms doom-themes font-lock+ web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode highlight-indent-guides vimish-fold evil-vimish-fold engine-mode sx stickyfunc-enhance srefactor evil-snipe evil-cleverparens diredful hl-line+ nlinum all-the-icons ox-gfm org-pdfview seq smooth-scrolling typo pdf-tools tablist emoji-cheat-sheet-plus company-emoji reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl shell-current-directory fish-mode stylus-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data dashboard yapfify slack emojify circe oauth2 websocket ht pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode cython-mode company-anaconda clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider queue clojure-mode anaconda-mode pythonic doom xterm-color smeargle shell-pop orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company auto-yasnippet yasnippet auto-dictionary all-the-icons-dired ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(pdf-tools-handle-upgrades nil)
  '(spaceline-all-the-icons-file-name-highlight nil)
  '(spaceline-all-the-icons-icon-set-flycheck-slim (quote outline))
@@ -550,4 +603,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-lock-function-name-face ((t (:slant italic))))
  '(spaceline-all-the-icons-info-face ((t (:foreground "#63B2FF" :weight light :family "Iosevka")))))

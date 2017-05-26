@@ -6,6 +6,9 @@
 # path to oh-my-zsh installation
 export ZSH=~/.oh-my-zsh
 
+# always auto-update
+DISABLE_UPDATE_PROMPT=true
+
 # operations
 ZSH_THEME="refined"
 
