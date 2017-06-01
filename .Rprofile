@@ -206,9 +206,6 @@ source_rp <- function(){ source('~/gitProfiles/.Rprofile') }
 # system utilities
 #-----------------
 
-# edit log file
-edit_log <- function(){system("$EDITOR ~/gitProfiles/log.md")}
-
 # imgcat function
 img <- function(file){ system(str_c('imgcat ', file)) }
 
