@@ -73,7 +73,7 @@ alias supertemporal='ssh -i ~/.ssh/supertemporal_id_rsa hxrts@supertempor.al'
 # tmux
 #-----
 
-if $(ps -e | grep -q tmux); then
+if $(ps -e | grep -v "grep" | grep -q tmux); then
 	echo "";
 	tmux ls;
 fi
