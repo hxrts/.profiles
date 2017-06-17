@@ -67,6 +67,7 @@ alias juno='ssh admin@juno.hxrts.com'
 alias hal='ssh -i ~/.ssh/id_rsa bermans@hal.cbio.mskcc.org'
 alias saba='ssh -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
 alias ika='ssh -i ~/.ssh/saba.private bermans@ika.cbio.mskcc.org'
+alias supertemporal='ssh -i ~/.ssh/supertemporal_id_rsa hxrts@supertempor.al'
 
 #-----
 # tmux

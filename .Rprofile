@@ -4,6 +4,7 @@
 
 options(editor = 'subl')
 options(width = 150)
+options(menu.graphics = FALSE)
 
 
 #-----------------------
@@ -182,6 +183,10 @@ opn <- function(path = '.') {
     } else {
         system(paste('open', path))
     }
+}
+
+subl <- function(path = '.') {
+	system(paste('subl', path))
 }
 
 # list system files
