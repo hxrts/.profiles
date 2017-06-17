@@ -25,9 +25,6 @@ editor='vi'
 alias vi='nvim -N'
 alias vim='nvim -N'
 
-# grep coloring
-export GREP_OPTIONS='--color=auto' 
-
 # tree coloring
 alias tree="tree -C"
 
@@ -70,3 +67,13 @@ alias juno='ssh admin@juno.hxrts.com'
 alias hal='ssh -i ~/.ssh/id_rsa bermans@hal.cbio.mskcc.org'
 alias saba='ssh -i ~/.ssh/saba.private bermans@saba2.cbio.mskcc.org'
 alias ika='ssh -i ~/.ssh/saba.private bermans@ika.cbio.mskcc.org'
+
+#-----
+# tmux
+#-----
+
+if $(ps -e | grep -q tmux); then
+	echo "";
+	tmux ls;
+fi
+
