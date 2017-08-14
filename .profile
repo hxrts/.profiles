@@ -22,8 +22,8 @@ export PATH="$PATH:$HOME/bin"
 editor='vi'
 
 # use nvim
-alias vi='nvim -N'
-alias vim='nvim -N'
+alias vi='nvim'
+alias vim='nvim'
 
 # tree coloring
 alias tree="tree -C"
@@ -60,7 +60,7 @@ export SSH_KEY_PATH='~/.ssh/id_rsa'
 #-----------------
 
 # hxrts alias
-alias terra='ssh hxrts@terra.hxrts.com'
+alias terra='mosh hxrts@terra.hxrts.com'
 alias juno='ssh admin@juno.hxrts.com'
 
 # lab aliases

@@ -1,11 +1,6 @@
-
-" Pathogen
-execute pathogen#infect()
-
 " options
 syntax on
+set number
+set numberwidth=3
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 filetype plugin indent on
-
-" start NERDTree automatically if no file specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
