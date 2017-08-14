@@ -7,7 +7,6 @@
 # if not running interactively, continue
 [ -z "$PS1" ] && return
 
-
 #--------
 # options
 #--------

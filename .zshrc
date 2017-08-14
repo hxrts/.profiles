@@ -1,5 +1,12 @@
 # zsh login instances
 
+
+#-----------------
+# TRAMP prompt fix
+#-----------------
+
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 #---------
 # zsh init
 #---------
