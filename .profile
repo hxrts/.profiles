@@ -40,11 +40,11 @@ if [[ "$unamestr" == 'Linux' ]]; then
     eval 'dircolors ~/.profiles/dircolors.256dark' > /dev/null
     export TERM=xterm-256color
     export LS_COLORS
-    alias ls="ls -GFha --color"
+    alias ls="ls -Fha --color"
 elif [[ "$unamestr" == 'Darwin' ]]; then
     export CLICOLOR=1
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-    alias ls='ls -GFha'
+    alias ls='ls -Fha'
 fi
 
 
