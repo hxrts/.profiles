@@ -62,6 +62,7 @@ export SSH_KEY_PATH='~/.ssh/id_rsa'
 # hxrts alias
 alias terra='mosh hxrts@terra.hxrts.com'
 alias juno='ssh admin@juno.hxrts.com'
+alias io='mosh hxrts@192.241.143.63'
 
 # lab aliases
 alias hal='ssh -i ~/.ssh/id_rsa bermans@hal.cbio.mskcc.org'
